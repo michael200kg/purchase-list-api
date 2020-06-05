@@ -19,3 +19,41 @@ def commandPrefix = [configurations.oagen.asPath, 'generate', '-i', 'swagger.yam
 
 def springCommand = commandPrefix + ['spring', '-o', './out/spring', '-c', 'spring-config.json']
 def angularCommand = commandPrefix + ['typescript-angular', '-t', './angular-templates', '-o', './out/angular/@api-module', '-c', 'angular-config.json']
+
+task cleanApiAngular(type: Delete) {
+    delete '../purchase-list-ui/purchases/src/app/@openapi', './out/angular'
+}
+
+task generateApiAngular(type: JavaExec) {
+    dependsOn cleanApiAngular
+    main = "-jar"
+    args(angularCommand)
+}
+
+task cleanApiSpring(type: Delete) {
+    delete '../purchase-list-server/src/main/java/com/michael200kg/purchaseserver/openapi', './out/spring'
+}
+
+task generateApiSpring(type: JavaExec) {
+    dependsOn cleanApiSpring
+    main = "-jar"
+    args(springCommand)
+}
+
+task copyAngularApi(type: Copy) {
+    dependsOn generateApiAngular
+    from './out/angular'
+    include '**/*.ts'
+    exclude '@api-module/.openapi-generator'
+    into '../purchase-list-ui/purchases/src/app'
+}
+
+task copySpringApi(type: Copy) {
+    dependsOn generateApiSpring
+    from './out/spring/source/com/michael200kg/purchaseserver/openapi'
+    into '../purchase-list-server/src/main/java/com/michael200kg/purchaseserver/openapi'
+}
+
+task buildApiStubs(type: DefaultTask) {
+    dependsOn copyAngularApi, copySpringApi
+}
