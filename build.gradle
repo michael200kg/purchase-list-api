@@ -1,0 +1,21 @@
+apply plugin: 'java'
+
+configurations {
+    oagen
+}
+
+dependencies {
+    oagen 'org.openapitools:openapi-generator-cli:4.2.2'
+}
+
+task findOagenJar {
+    println configurations.oagen.asPath
+}
+
+processResources.enabled = false
+classes.enabled = false
+
+def commandPrefix = [configurations.oagen.asPath, 'generate', '-i', 'swagger.yaml', '-g']
+
+def springCommand = commandPrefix + ['spring', '-o', './out/spring', '-c', 'spring-config.json']
+def angularCommand = commandPrefix + ['typescript-angular', '-t', './angular-templates', '-o', './out/angular/@api-module', '-c', 'angular-config.json']
