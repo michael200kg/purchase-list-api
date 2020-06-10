@@ -7,24 +7,92 @@ servers:
   - url: http://localhost:8888/purchases
     description: Optional server description, e.g. Main (production) server
 paths:
-  /purchases:
+  /purchase:
     get:
-      summary: Returns a list of purchases.
       tags:
         - Purchase
-      description: Optional extended description in CommonMark or HTML.
       operationId: getPurchases
+      summary: "Get list of all Purchases"
       responses:
-        '200':    # status code
-          description: A JSON array of user names
+        '200':
+          description: "Retrieved list of all Purchases"
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/Purchase"
-# MODEL ----------------------------------------------------------------
+    post:
+      tags:
+        - Purchase
+      operationId: createPurchase
+      summary: "Creates new Purchase"
+      requestBody:
+        description: "Purchase"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Purchase"
+      responses:
+        '200':
+          description: "Created Purchase"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Purchase"
+    put:
+      tags:
+        - Purchase
+      operationId: editPurchase
+      summary: "Edits Purchase"
+      requestBody:
+        description: "Purchase"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Purchase"
+      responses:
+        '200':
+          description: "Edited Purchase"
+  /purchase/{purchaseId}:
+    get:
+      tags:
+        - Purchase
+      operationId: getPurchaseById
+      summary: "Get Purchase by id"
+      parameters:
+        - in: path
+          required: true
+          name: purchaseId
+          description: "Id of the Purchase"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Retrieved Purchase"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Purchase"
+    delete:
+      tags:
+        - Purchase
+      operationId: deletePurchase
+      summary: "Deletes existing Purchase"
+      parameters:
+        - in: path
+          required: true
+          name: purchaseId
+          description: "Id of the Purchase"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Deleted Purchase"
 
+
+
+# MODEL ----------------------------------------------------------------
 components:
   schemas:
     Purchase:

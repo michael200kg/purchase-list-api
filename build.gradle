@@ -21,7 +21,7 @@ def springCommand = commandPrefix + ['spring', '-o', './out/spring', '-c', 'spri
 def angularCommand = commandPrefix + ['typescript-angular', '-t', './angular-templates', '-o', './out/angular/@api-module', '-c', 'angular-config.json']
 
 task cleanApiAngular(type: Delete) {
-    delete '../purchase-list-ui/purchases/src/app/@openapi', './out/angular'
+    delete '../purchase-list-ui/src/app/@openapi', './out/angular'
 }
 
 task generateApiAngular(type: JavaExec) {
@@ -45,7 +45,7 @@ task copyAngularApi(type: Copy) {
     from './out/angular'
     include '**/*.ts'
     exclude '@api-module/.openapi-generator'
-    into '../purchase-list-ui/purchases/src/app'
+    into '../purchase-list-ui/src/app'
 }
 
 task copySpringApi(type: Copy) {

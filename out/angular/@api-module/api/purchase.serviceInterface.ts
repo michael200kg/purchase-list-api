@@ -26,8 +26,36 @@ export interface PurchaseServiceInterface {
     
 
     /**
-     * Returns a list of purchases.
-     * Optional extended description in CommonMark or HTML.
+     * Creates new Purchase
+     * 
+     * @param purchase Purchase
+     */
+    createPurchase(purchase?: Purchase, extraHttpRequestParams?: any): Observable<Purchase>;
+
+    /**
+     * Deletes existing Purchase
+     * 
+     * @param purchaseId Id of the Purchase
+     */
+    deletePurchase(purchaseId: number, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Edits Purchase
+     * 
+     * @param purchase Purchase
+     */
+    editPurchase(purchase?: Purchase, extraHttpRequestParams?: any): Observable<{}>;
+
+    /**
+     * Get Purchase by id
+     * 
+     * @param purchaseId Id of the Purchase
+     */
+    getPurchaseById(purchaseId: number, extraHttpRequestParams?: any): Observable<Purchase>;
+
+    /**
+     * Get list of all Purchases
+     * 
      */
     getPurchases(extraHttpRequestParams?: any): Observable<Array<Purchase>>;
 
