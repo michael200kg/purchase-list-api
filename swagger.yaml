@@ -90,7 +90,22 @@ paths:
         '200':
           description: "Deleted Purchase"
 
-
+  /purchaseItem/toggle/{purchaseItemId}:
+    put:
+      tags:
+        - Purchase Item
+      operationId: togglePurchaseItem
+      summary: "Toggle purchase item check"
+      parameters:
+        - in: path
+          required: true
+          name: purchaseItemId
+          description: "Id of the PurchaseItem"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Edited Purchase"
 
 # MODEL ----------------------------------------------------------------
 components:
