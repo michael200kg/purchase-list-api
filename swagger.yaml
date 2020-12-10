@@ -7,6 +7,35 @@ servers:
   - url: http://localhost:8888/purchases
     description: Optional server description, e.g. Main (production) server
 paths:
+  # AUTH ----------------------------------------------------------
+  /auth/login:
+    post:
+      operationId: loginUser
+      summary: "Logs user into the system via username amd password"
+      tags:
+        - Auth
+      requestBody:
+        description: "The user object for login"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAuth"
+      responses:
+        '200':
+          description: "Received logged in user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+  /auth/logout:
+    get:
+      operationId: logoutUser
+      summary: "Logs out currently logged in user session"
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: "Ok response. You are now logged out"
   /purchase:
     get:
       tags:
@@ -106,7 +135,39 @@ paths:
       responses:
         '200':
           description: "Edited Purchase"
-
+  /user:
+    get:
+      tags:
+        - User
+      operationId: getUsers
+      summary: "Get list of all Users"
+      responses:
+        '200':
+          description: "Retrieved list of all Purchases"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    put:
+      tags:
+        - User
+      operationId: updateUser
+      summary: "Edit user"
+      requestBody:
+        description: "User"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: "Edited Purchase"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
 # MODEL ----------------------------------------------------------------
 components:
   schemas:
@@ -152,4 +213,20 @@ components:
         itemName:
           type: string
         itemDescription:
+          type: string
+    UserAuth:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        fio:
+          type: string
+        apiKey:
           type: string
