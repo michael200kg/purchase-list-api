@@ -168,6 +168,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+  /user/password:
+    put:
+      tags:
+        - User
+      operationId: updatePassword
+      summary: Update user password - disable with AD integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PasswordUpdateHolder"
+      responses:
+        '200':
+          description: "Updated password"
 # MODEL ----------------------------------------------------------------
 components:
   schemas:
@@ -229,4 +244,11 @@ components:
         fio:
           type: string
         apiKey:
+          type: string
+    PasswordUpdateHolder:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
           type: string
