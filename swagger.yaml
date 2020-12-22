@@ -42,6 +42,13 @@ paths:
         - Purchase
       operationId: getPurchases
       summary: "Get list of all Purchases"
+      parameters:
+        - in: query
+          required: false
+          name: showAll
+          description: "Id of the Purchase"
+          schema:
+            type: boolean
       responses:
         '200':
           description: "Retrieved list of all Purchases"
@@ -83,19 +90,25 @@ paths:
       responses:
         '200':
           description: "Edited Purchase"
-  /purchase/{purchaseId}:
+  /purchase/getPurchaseById:
     get:
       tags:
         - Purchase
       operationId: getPurchaseById
       summary: "Get Purchase by id"
       parameters:
-        - in: path
+        - in: query
           required: true
           name: purchaseId
           description: "Id of the Purchase"
           schema:
             type: integer
+        - in: query
+          required: false
+          name: showAll
+          description: "Id of the Purchase"
+          schema:
+            type: boolean
       responses:
         '200':
           description: "Retrieved Purchase"
@@ -150,6 +163,24 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+    post:
+      tags:
+        - User
+      operationId: createUser
+      summary: "Create user"
+      requestBody:
+        description: "User"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: "Edited Purchase"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
     put:
       tags:
         - User
@@ -183,6 +214,94 @@ paths:
       responses:
         '200':
           description: "Updated password"
+  /template:
+    get:
+      tags:
+        - Purchase Template
+      operationId: getTemplates
+      summary: "Get list of all Templates"
+      responses:
+        '200':
+          description: "Retrieved list of all Templates"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PurchaseTemplate"
+    post:
+      tags:
+        - Purchase Template
+      operationId: createTemplate
+      summary: "Creates new PurchaseTemplate"
+      requestBody:
+        description: "Template"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PurchaseTemplate"
+      responses:
+        '200':
+          description: "Created Purchase Template"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PurchaseTemplate"
+    put:
+      tags:
+        - Purchase Template
+      operationId: editTemplate
+      summary: "Edit Purchase Template"
+      requestBody:
+        description: "Template"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PurchaseTemplate"
+      responses:
+        '200':
+          description: "Edited Purchase Template"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PurchaseTemplate"
+  /template/{templateId}:
+    get:
+      tags:
+        - Purchase Template
+      operationId: getTemplateById
+      summary: "Get Purchase Template by id"
+      parameters:
+        - in: path
+          required: true
+          name: templateId
+          description: "Id Purchase of the Template"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Retrieved Purchase Template"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PurchaseTemplate"
+    delete:
+      tags:
+        - Purchase Template
+      operationId: deleteTemplate
+      summary: "Deletes existing Purchase Template"
+      parameters:
+        - in: path
+          required: true
+          name: templateId
+          description: "Id of the Purchase Template"
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: "Deleted Purchase Template"
+
+
 # MODEL ----------------------------------------------------------------
 components:
   schemas:
@@ -229,6 +348,34 @@ components:
           type: string
         itemDescription:
           type: string
+        active:
+          type: boolean
+    PurchaseTemplate:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        text:
+          type: string
+        username:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PurchaseTemplateItem"
+    PurchaseTemplateItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        purchaseTemplateId:
+          type: integer
+        itemName:
+          type: string
+        itemDescription:
+          type: string
     UserAuth:
       type: object
       properties:
@@ -236,6 +383,7 @@ components:
           type: string
         password:
           type: string
+
     User:
       type: object
       properties:

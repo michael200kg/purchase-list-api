@@ -18,6 +18,7 @@ export interface PurchaseItem {
     checkedDate?: Date;
     itemName?: string;
     itemDescription?: string;
+    active?: boolean;
 }
 
 
